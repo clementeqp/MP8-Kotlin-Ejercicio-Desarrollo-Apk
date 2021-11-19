@@ -4,6 +4,7 @@ package com.clemen.pac
 
 import android.annotation.SuppressLint
 import android.content.ContentValues
+import android.database.sqlite.SQLiteDatabase
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -12,14 +13,17 @@ import com.clemen.pac.databinding.Activity2Binding
 
 class Activity2 : AppCompatActivity() {
     private lateinit var binding: Activity2Binding
-    @SuppressLint("Recycle")
+    private lateinit var bbdd : AdminSQLiteOpenHelper
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Usamos view Binding para la vinculacion de las vistas
         binding = Activity2Binding.inflate(layoutInflater)
         setContentView(binding.root)
+        // Lanzamos un mensaje, para sber en que Activity estamos "..."
         Toast.makeText(
             this,
-            "Estas en Base de Datos ...",
+            "Estas en la Activity 2 ...",
             Toast.LENGTH_SHORT
         ).show()
 
@@ -29,10 +33,11 @@ class Activity2 : AppCompatActivity() {
 
         var databaseName = "db_pac"
 
-        //Crear
+        //Pulsar boton crear , creara la bbdd
         binding.buttonCrear.setOnClickListener {
 
-            val bbdd = AdminSQLiteOpenHelper(this, databaseName, null, 1)
+            bbdd = AdminSQLiteOpenHelper(this, databaseName, null, 1)
+            // Lanzamos un mensaje , "..."
             Toast.makeText(
                 this,
                 "Se ha creado correctamente la base de datos $databaseName",
@@ -45,7 +50,7 @@ class Activity2 : AppCompatActivity() {
 
         //Insertar
         binding.buttonInsertar.setOnClickListener {
-            val bbdd = AdminSQLiteOpenHelper(this, databaseName, null, 1)
+
             val bd = bbdd.writableDatabase
             val registro = ContentValues()
             registro.put("nombre", binding.et5.getText().toString())
@@ -53,6 +58,7 @@ class Activity2 : AppCompatActivity() {
             bd.insert("alumnos", null, registro)
             bd.close()
 
+            // Lanzamos un mensaje , "..."
             Toast.makeText(
                 this,
                 "Se guardaron los datos del alumno ${binding.et5.getText().toString()}",
@@ -65,8 +71,8 @@ class Activity2 : AppCompatActivity() {
 
         //Consultar
         binding.buttonConsul.setOnClickListener {
-            val bbdd = AdminSQLiteOpenHelper(this, databaseName, null, 1)
-            val bd = bbdd.writableDatabase
+
+            val bd = bbdd.readableDatabase
             val fila = bd.rawQuery(
                 "select nombre,email from alumnos where _id=${
                     binding.et2.getText().toString()
@@ -76,6 +82,7 @@ class Activity2 : AppCompatActivity() {
                 binding.tv3.setText(fila.getString(0))
                 binding.tv4.setText(fila.getString(1))
             } else
+            // Lanzamos un mensaje , "..."
                 Toast.makeText(
                     this,
                     "No existe un alumno con el id: " + binding.et2.getText().toString(),

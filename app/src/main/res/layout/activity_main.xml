@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="25sp"
         android:text="Activity 2"
-        android:textSize="10sp"
+        android:textSize="10dp"
         app:cornerRadius="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/buttonActivity3"

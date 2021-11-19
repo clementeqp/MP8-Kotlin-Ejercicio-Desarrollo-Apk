@@ -15,6 +15,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
+
+        // Usamos view Binding para la vinculacion de las vistas
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -50,6 +52,7 @@ class MainActivity : AppCompatActivity() {
                 ).show()
             }else{
                 mediaplayer.start()
+                // Lanzamos un mensaje , "..."
                 Toast.makeText(
                     this,
                     "Reproduciendo, espera unos segundos ... ",
@@ -62,6 +65,7 @@ class MainActivity : AppCompatActivity() {
         binding.buttonStop.setOnClickListener{
             mediaplayer.stop()
             mediaplayer.prepare()
+            // Lanzamos un mensaje , "..."
             Toast.makeText(
                 this,
                 "Reproduccion detenida.",
